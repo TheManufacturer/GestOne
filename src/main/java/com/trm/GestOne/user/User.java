@@ -44,6 +44,13 @@ public class User implements UserDetails {
     @JoinTable(name = "users_role", joinColumns = @JoinColumn(name = "users_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> role = new HashSet<>();
 
+    /*
+     * The relationship between Item and Warehouse is defined as Many-to-Many because:
+     * we can have multiple items, and the same item can be stored in different warehouses
+     * with different IDs. This allows for flexibility in managing inventory across multiple locations.
+     */
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
