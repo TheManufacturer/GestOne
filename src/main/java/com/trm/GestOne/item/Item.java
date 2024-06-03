@@ -1,9 +1,12 @@
 package com.trm.GestOne.item;
 
+import com.trm.GestOne.warehouse.Warehouse;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.OffsetDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table
@@ -15,7 +18,8 @@ import java.time.OffsetDateTime;
 public class Item {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long id;
+        @Column(name = "item_id")
+        private Long itemId;
 
         @Column(nullable = false)
         private String name;
@@ -49,5 +53,9 @@ public class Item {
 
         @Column(nullable = false)
         private OffsetDateTime daySale;
+
+        @ManyToMany(mappedBy = "items")
+        private Set<Warehouse> warehouses = new HashSet<>();
+
 }
 

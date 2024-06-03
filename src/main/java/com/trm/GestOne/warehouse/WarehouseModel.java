@@ -6,11 +6,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class WarehouseModel {
-    private Long wareHouseId;
+    private Long warehouseId;
 
     private String name;
     private Integer capacity;
@@ -20,7 +22,7 @@ public class WarehouseModel {
     //Entity to Model
     public static WarehouseModel mapEntityToModel(Warehouse warehouse) {
         return new WarehouseModel(
-                warehouse.getWareHouseId(),
+                warehouse.getWarehouseId(),
                 warehouse.getName(),
                 warehouse.getCapacity(),
                 warehouse.getStatus(),
@@ -31,18 +33,19 @@ public class WarehouseModel {
     //Model to Entity
     public static Warehouse mapModelToEntity(WarehouseModel warehouseModel) {
         return new Warehouse(
-                warehouseModel.getWareHouseId(),
+                warehouseModel.getWarehouseId(),
                 warehouseModel.getName(),
                 warehouseModel.getCapacity(),
                 warehouseModel.getStatus(),
-                warehouseModel.getManager()
+                warehouseModel.getManager(),
+                new HashSet<>()
         );
     }
 
     //Model to Response
     public static WarehouseResponse mapModelToResponse(WarehouseModel warehouseModel) {
         return new WarehouseResponse(
-                warehouseModel.getWareHouseId(),
+                warehouseModel.getWarehouseId(),
                 warehouseModel.getName(),
                 warehouseModel.getCapacity(),
                 warehouseModel.getStatus(),

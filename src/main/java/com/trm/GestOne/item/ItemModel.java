@@ -4,6 +4,7 @@ import com.trm.GestOne.item.ItemDto.ItemResponse;
 import lombok.*;
 
 import java.time.OffsetDateTime;
+import java.util.HashSet;
 
 @Data
 @AllArgsConstructor
@@ -26,7 +27,7 @@ public class ItemModel {
     //Entity to Model
     public static ItemModel mapEntityToModel(Item itemInfo) {
         return new ItemModel(
-                itemInfo.getId(),
+                itemInfo.getItemId(),
                 itemInfo.getName(),
                 itemInfo.getDescription(),
                 itemInfo.getPurchasePrice(),
@@ -55,7 +56,8 @@ public class ItemModel {
                 itemModel.getItemType(),
                 itemModel.getIsAvailable(),
                 itemModel.getDayPurchase(),
-                itemModel.getDaySale()
+                itemModel.getDaySale(),
+                new HashSet<>()
         );
     }
 

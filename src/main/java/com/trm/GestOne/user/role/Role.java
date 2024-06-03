@@ -8,7 +8,7 @@ import lombok.Data;
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long roleId;
 
     @Enumerated(EnumType.STRING)
     private RoleType name;
