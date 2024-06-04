@@ -3,7 +3,7 @@ package com.trm.GestOne.configuration.dto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.trm.GestOne.item.Item;
-import com.trm.GestOne.user.User;
+import com.trm.GestOne.user.Users;
 import lombok.Data;
 
 import java.util.HashSet;
@@ -27,5 +27,5 @@ public class ReqRes {
     private String lastName;
     private Set<String> role = new HashSet<>();
     private List<Item> item;
-    private User ourUsers;
+    private Users ourUsers;
 }

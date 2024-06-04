@@ -57,7 +57,7 @@ We are still at the beginning of our journey and are working hard to bring new f
 ## Technologies Used 🛠️
 
 - **Java Spring Boot**: Framework for rapid development of Java applications based on Spring, used for the project's back-end.
-- **Spring Security**: Framework for application security, used to manage user authentication and authorization.
+- **Spring Security**: Framework for application security, used to manage users authentication and authorization.
 - **Spring Data JPA**: Spring component that simplifies the development of repositories for accessing data through JPA (Java Persistence API).
 - **MySQL**: Relational database used for persisting project data.
 - **JSON Web Token (JWT)**: Open standard based on JSON for creating access tokens that enable secure authentication and authorization between parties.

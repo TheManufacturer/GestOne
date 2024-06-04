@@ -2,10 +2,11 @@ package com.trm.GestOne.configuration.login_registration;
 
 import com.trm.GestOne.configuration.dto.ReqRes;
 import com.trm.GestOne.configuration.security.jwt.JWTUtils;
-import com.trm.GestOne.user.User;
+import com.trm.GestOne.user.Users;
 import com.trm.GestOne.user.UserRepository;
-import com.trm.GestOne.user.role.Role;
-import com.trm.GestOne.user.role.RoleRepository;
+import com.trm.GestOne.user.role.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,6 +16,8 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+
+
 
 @Service
 public class AuthService {
@@ -34,15 +37,18 @@ public class AuthService {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    private static final Logger logger = LoggerFactory.getLogger(AuthService.class);
+
+
     public ReqRes signUp(ReqRes registrationRequest) {
+        logger.info("Signup method called with request: {}", registrationRequest);
         ReqRes resp = new ReqRes();
         try {
-            User users = new User();
+            Users users = new Users();
             users.setFirstName(registrationRequest.getFirstName());
             users.setLastName(registrationRequest.getLastName());
             users.setEmail(registrationRequest.getEmail());
             users.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
-
 
             Set<Role> savedRoles = new HashSet<>();
             for (String roleName : registrationRequest.getRole()) {
@@ -53,34 +59,34 @@ public class AuthService {
 
             users.setRole(savedRoles);
 
-            User usersResult = userRepository.save(users);
-            if (usersResult != null && usersResult.getUserId() > 0) {
+            Users usersResult = userRepository.save(users);
+            if (usersResult.getUserId() > 0) {
                 resp.setOurUsers(usersResult);
-                resp.setMessage("user saved succesfully ");
+                resp.setMessage("User saved successfully");
                 resp.setStatusCode(200);
             }
         } catch (Exception e) {
+            logger.error("Error in signup method: ", e);
             resp.setStatusCode(500);
             resp.setError(e.getMessage());
         }
         return resp;
     }
-
-    public ReqRes signIn(ReqRes signinRequest) {
+    public ReqRes signIn(ReqRes signingRequest) {
 
         ReqRes response = new ReqRes();
 
         try {
             authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(signinRequest.getEmail(), signinRequest.getPassword()));
-            var user = userRepository.findByEmail(signinRequest.getEmail()).orElseThrow();
+                    new UsernamePasswordAuthenticationToken(signingRequest.getEmail(), signingRequest.getPassword()));
+            var user = userRepository.findByEmail(signingRequest.getEmail()).orElseThrow();
             System.out.println("USER IS: " + user);
             var jwt = jwtUtils.generateToken(user);
             var refreshToken = jwtUtils.generateRefreshToken(new HashMap<>(), user);
             response.setStatusCode(200);
             response.setToken(jwt);
             response.setRefreshToken(refreshToken);
-            response.setMessage("succesfully Signed in");
+            response.setMessage("successfully Signed in");
 
         } catch (Exception e) {
             response.setStatusCode(500);
@@ -89,16 +95,16 @@ public class AuthService {
         return response;
     }
 
-    public ReqRes refreshToken(ReqRes refreshTokenRequiest) {
+    public ReqRes refreshToken(ReqRes refreshTokenRequest) {
         ReqRes response = new ReqRes();
-        String ourEmail = jwtUtils.extractUserName(refreshTokenRequiest.getToken());
-        User user = userRepository.findByEmail(ourEmail).orElseThrow();
-        if (jwtUtils.isTokenValid(refreshTokenRequiest.getToken(), user)) {
-            var jwt = jwtUtils.generateToken(user);
+        String ourEmail = jwtUtils.extractUserName(refreshTokenRequest.getToken());
+        Users users = userRepository.findByEmail(ourEmail).orElseThrow();
+        if (jwtUtils.isTokenValid(refreshTokenRequest.getToken(), users)) {
+            var jwt = jwtUtils.generateToken(users);
             response.setStatusCode(200);
             response.setToken(jwt);
-            response.setRefreshToken(refreshTokenRequiest.getToken());
-            response.setMessage("succesfully Refreshed Token");
+            response.setRefreshToken(refreshTokenRequest.getToken());
+            response.setMessage("successfully Refreshed Token");
         }
         response.setStatusCode(500);
         return response;

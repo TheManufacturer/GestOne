@@ -14,41 +14,34 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserModel {
+
     private Long userId;
-    private String username;
     private String password;
     private String email;
     private String firstName;
     private String lastName;
-    private String phoneNumber;
-    private String address;
     private Set<Role> role = new HashSet<>();
 
     //Entity to Model
-    public static UserModel mapEntityToModel(User userInfo) {
+    public static UserModel mapEntityToModel(Users usersInfo) {
         return new UserModel(
-                userInfo.getUserId(),
-                userInfo.getUsername(),
-                userInfo.getPassword(),
-                userInfo.getEmail(),
-                userInfo.getFirstName(),
-                userInfo.getLastName(),
-                userInfo.getPhoneNumber(),
-                userInfo.getAddress(),
-                userInfo.getRole()
+                usersInfo.getUserId(),
+                usersInfo.getPassword(),
+                usersInfo.getEmail(),
+                usersInfo.getFirstName(),
+                usersInfo.getLastName(),
+                usersInfo.getRole()
         );
     }
 
     //Model to Entity
-    public static User mapModelToEntity(UserModel userModel) {
-        return new User(
+    public static Users mapModelToEntity(UserModel userModel) {
+        return new Users(
                 userModel.getUserId(),
                 userModel.getFirstName(),
                 userModel.getLastName(),
                 userModel.getEmail(),
                 userModel.getPassword(),
-                userModel.getPhoneNumber(),
-                userModel.getAddress(),
                 userModel.getRole()
         );
     }
@@ -57,13 +50,10 @@ public class UserModel {
     public static UserResponse mapModelToResponse(UserModel userModel) {
         return new UserResponse(
                 userModel.getUserId(),
-                userModel.getUsername(),
                 userModel.getPassword(),
                 userModel.getEmail(),
                 userModel.getFirstName(),
                 userModel.getLastName(),
-                userModel.getPhoneNumber(),
-                userModel.getAddress(),
                 userModel.getRole()
         );
     }
@@ -72,13 +62,10 @@ public class UserModel {
     public static UserModel mapRequestToModel(UserRequest userRequest) {
         return new UserModel(
                 null,
-                userRequest.getUsername(),
                 userRequest.getPassword(),
                 userRequest.getEmail(),
                 userRequest.getFirstName(),
                 userRequest.getLastName(),
-                userRequest.getPhoneNumber(),
-                userRequest.getAddress(),
                 userRequest.getRole()
         );
     }
