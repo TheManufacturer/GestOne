@@ -16,7 +16,7 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Users implements UserDetails {
+public class Users{ // add --> implements UserDetails for security
 
     @Id()
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,12 +39,7 @@ public class Users implements UserDetails {
     private Set<Role> role = new HashSet<>();
 
     /*
-     * The relationship between Item and Warehouse is defined as Many-to-Many because:
-     * we can have multiple items, and the same item can be stored in different warehouses
-     * with different IDs. This allows for flexibility in managing inventory across multiple locations.
-     */
-
-    //We can use this part of commented code after create configuration
+    //delete commented part for security -Only for test :)
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -54,6 +49,7 @@ public class Users implements UserDetails {
         }
         return authorities;
     }
+
 
     @Override
     public String getUsername() {
@@ -79,5 +75,7 @@ public class Users implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+     */
 
 }

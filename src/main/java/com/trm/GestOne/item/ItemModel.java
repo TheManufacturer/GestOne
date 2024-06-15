@@ -21,6 +21,8 @@ public class ItemModel {
     private Boolean isNew;
     private ItemType itemType;
     private ItemStatus isAvailable;
+
+    //attention here!!! with dayPurchase and daySale
     private OffsetDateTime dayPurchase;
     private OffsetDateTime daySale;
 

@@ -1,46 +1,80 @@
 package com.trm.GestOne.user.admin;
 
+import com.trm.GestOne.item.Item;
+import com.trm.GestOne.item.ItemDto.ItemRequest;
+import com.trm.GestOne.item.ItemDto.ItemResponse;
+import com.trm.GestOne.item.ItemModel;
+import com.trm.GestOne.item.ItemRepository;
 import com.trm.GestOne.user.UserRepository;
+import com.trm.GestOne.warehouse.WarehouseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class AdminService {
+
     @Autowired
     UserRepository userRepository;
 
-    // 1. Gestione Utenti
-//    - Visualizzare lista degli utenti
-//    - Modificare dati degli utenti
-//    - Eliminare utenti
+    @Autowired
+    ItemRepository itemRepository;
 
-// 2. Gestione Ruoli
-//    - Visualizzare lista dei ruoli
-//    - Creare nuovi ruoli
-//    - Modificare ruoli
-//    - Eliminare ruoli
+    @Autowired
+    WarehouseRepository warehouseRepository;
 
-// 3. Gestione Prodotti
-//    - Aggiungere nuovi prodotti al catalogo
-//    - Modificare dati dei prodotti
-//    - Eliminare prodotti
+    //  Gestione Item
 
-// 4. Gestione Ordini
-//    - Visualizzare lista degli ordini
-//    - Modificare lo stato degli ordini
-//    - Gestire consegne e spedizioni
+    // Retrieves all items from the database and converts them to ItemResponse objects for HTTP response
+    public List<ItemResponse> getAllItem(){
+        // Retrieve all items from the database
+        List<Item> response = itemRepository.findAll();
 
-// 5. Gestione Categorie
-//    - Aggiungere nuove categorie
-//    - Modificare categorie esistenti
-//    - Eliminare categorie
+        // Create a list to hold ItemResponse objects
+        List<ItemResponse> result = new ArrayList<>();
 
-// 6. Gestione Rapporti
-//    - Generare report sui dati del sistema
-//    - Visualizzare statistiche e analisi
+        // Iterate through each item and convert to ItemResponse
+        for (Item item : response) {
 
-// 7. Gestione Configurazioni
-//    - Modificare le impostazioni generali dell'applicazione
-//    - Gestire le impostazioni di sicurezza
+            //convert to model
+            ItemModel itemModel = ItemModel.mapEntityToModel(item);
+
+            //convert model to Response
+            result.add(ItemModel.mapModelToResponse(itemModel));
+        }
+        //return list of --> ItemResponse
+        return result;
+    }
+
+    //Todo Here --> maybe we can automatize the dayPurchase with the addItem
+    //This method add an Item and add to DB --> from Request to Entity :)
+    public ItemResponse addItem(ItemRequest newItemRequest){
+        //Convert request to model
+        ItemModel itemRequestModel = ItemModel.mapRequestToModel(newItemRequest);
+        //Convert model to entity
+        Item itemRequestEntity = ItemModel.mapModelToEntity(itemRequestModel);
+        //Save entity in Db by saveAndFlush
+        Item savedItem = itemRepository.saveAndFlush(itemRequestEntity);
+        //convert the savedItem (Entity) to response
+        ItemModel itemResponseModel = ItemModel.mapEntityToModel(savedItem);
+        //return It by response
+        return ItemModel.mapModelToResponse(itemResponseModel);
+    }
+
+    //This method found and delete an Item from DB
+    public boolean deleteItem (Long itemId){
+        //Exist this ItemId? :)
+        if(itemRepository.existsById(itemId)){
+            //delete it
+            itemRepository.deleteById(itemId);
+            return true;
+        }
+        //not  exist...false
+        return false;
+    }
+
+
 
 }
