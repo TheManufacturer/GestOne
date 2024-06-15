@@ -44,6 +44,7 @@ public class Users implements UserDetails {
      * with different IDs. This allows for flexibility in managing inventory across multiple locations.
      */
 
+    //We can use this part of commented code after create configuration
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
