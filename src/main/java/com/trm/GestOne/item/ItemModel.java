@@ -28,12 +28,12 @@ public class ItemModel {
 
     //attention here!!! with dayPurchase and daySale
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssZ")
-    private OffsetDateTime dayPurchase;
+    private OffsetDateTime dayInsertion;
 
 
     @PrePersist
     public void prePersist(){
-        this.dayPurchase = OffsetDateTime.now();
+        this.dayInsertion = OffsetDateTime.now();
     }
 
     //Entity to Model
@@ -49,7 +49,7 @@ public class ItemModel {
                 itemInfo.getIsNew(),
                 itemInfo.getItemType(),
                 itemInfo.getIsAvailable(),
-                itemInfo.getDayPurchase()
+                itemInfo.getDayInsertion()
         );
     }
 
@@ -66,7 +66,7 @@ public class ItemModel {
                 itemModel.getIsNew(),
                 itemModel.getItemType(),
                 itemModel.getIsAvailable(),
-                itemModel.getDayPurchase(),
+                itemModel.getDayInsertion(),
                 new HashSet<>()
         );
     }
@@ -84,7 +84,7 @@ public class ItemModel {
                 itemModel.getIsNew(),
                 itemModel.getItemType(),
                 itemModel.getIsAvailable(),
-                itemModel.getDayPurchase() == null ? "" : itemModel.getDayPurchase().toString()
+                itemModel.getDayInsertion() == null ? "" : itemModel.getDayInsertion().toString()
         );
     }
 
@@ -101,7 +101,7 @@ public class ItemModel {
                 itemRequest.getIsNew(),
                 itemRequest.getItemType(),
                 itemRequest.getIsAvailable(),
-                itemRequest.getDayPurchase() == null ? OffsetDateTime.now() : OffsetDateTime.parse(itemRequest.getDayPurchase())
+                itemRequest.getDayInsertion() == null ? OffsetDateTime.now() : OffsetDateTime.parse(itemRequest.getDayInsertion())
 
 //              OffsetDateTime.parse(itemRequest.getDayPurchase())
         );

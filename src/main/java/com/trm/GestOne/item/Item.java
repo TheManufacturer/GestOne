@@ -49,7 +49,7 @@ public class Item {
         private ItemStatus isAvailable; //Item: ordinabile, acquistabile, non disponibile
 
         @Column(nullable = false)
-        private OffsetDateTime dayPurchase;
+        private OffsetDateTime dayInsertion;
 
         @ManyToMany(mappedBy = "items")
         private Set<Warehouse> warehouses = new HashSet<>();

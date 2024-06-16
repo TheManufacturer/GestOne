@@ -22,5 +22,5 @@ public class ItemResponse {
     private ItemType itemType;
     private ItemStatus isAvailable;
 
-    private String dayPurchase;
+    private String dayInsertion;
 }
