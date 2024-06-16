@@ -22,6 +22,5 @@ public class ItemRequest {
     private ItemStatus isAvailable;
 
     private String dayPurchase;
-    private String daySale;
 
 }

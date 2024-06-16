@@ -1,6 +1,9 @@
 package com.trm.GestOne.item;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.trm.GestOne.item.ItemDto.ItemRequest;
 import com.trm.GestOne.item.ItemDto.ItemResponse;
+import jakarta.persistence.PrePersist;
 import lombok.*;
 
 import java.time.OffsetDateTime;
@@ -9,6 +12,7 @@ import java.util.HashSet;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ItemModel {
 
     private Long id;
@@ -23,8 +27,14 @@ public class ItemModel {
     private ItemStatus isAvailable;
 
     //attention here!!! with dayPurchase and daySale
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssZ")
     private OffsetDateTime dayPurchase;
-    private OffsetDateTime daySale;
+
+
+    @PrePersist
+    public void prePersist(){
+        this.dayPurchase = OffsetDateTime.now();
+    }
 
     //Entity to Model
     public static ItemModel mapEntityToModel(Item itemInfo) {
@@ -39,8 +49,7 @@ public class ItemModel {
                 itemInfo.getIsNew(),
                 itemInfo.getItemType(),
                 itemInfo.getIsAvailable(),
-                itemInfo.getDayPurchase(),
-                itemInfo.getDaySale()
+                itemInfo.getDayPurchase()
         );
     }
 
@@ -58,7 +67,6 @@ public class ItemModel {
                 itemModel.getItemType(),
                 itemModel.getIsAvailable(),
                 itemModel.getDayPurchase(),
-                itemModel.getDaySale(),
                 new HashSet<>()
         );
     }
@@ -76,8 +84,7 @@ public class ItemModel {
                 itemModel.getIsNew(),
                 itemModel.getItemType(),
                 itemModel.getIsAvailable(),
-                itemModel.getDayPurchase().toString(),
-                itemModel.getDaySale().toString()
+                itemModel.getDayPurchase() == null ? "" : itemModel.getDayPurchase().toString()
         );
     }
 
@@ -94,8 +101,9 @@ public class ItemModel {
                 itemRequest.getIsNew(),
                 itemRequest.getItemType(),
                 itemRequest.getIsAvailable(),
-                OffsetDateTime.parse(itemRequest.getDayPurchase()),
-                OffsetDateTime.parse(itemRequest.getDaySale())
+                itemRequest.getDayPurchase() == null ? OffsetDateTime.now() : OffsetDateTime.parse(itemRequest.getDayPurchase())
+
+//              OffsetDateTime.parse(itemRequest.getDayPurchase())
         );
     }
 

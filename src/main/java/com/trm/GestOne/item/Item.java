@@ -51,9 +51,6 @@ public class Item {
         @Column(nullable = false)
         private OffsetDateTime dayPurchase;
 
-        @Column(nullable = false)
-        private OffsetDateTime daySale;
-
         @ManyToMany(mappedBy = "items")
         private Set<Warehouse> warehouses = new HashSet<>();
 
